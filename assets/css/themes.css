@@ -1,0 +1,255 @@
+/**
+ * ====================================
+ * Typing Master - Theme Styles
+ * تم دارک و لایت
+ * ====================================
+ */
+
+/* ====================================
+   DARK MODE (پیش‌فرض)
+   ==================================== */
+.theme-dark {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    
+    --border-color: #334155;
+    --border-hover: #475569;
+    
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: var(--text-primary);
+}
+
+.theme-dark .main-header {
+    background: rgba(15, 23, 42, 0.8);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-dark .btn-icon {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.theme-dark .btn-icon:hover {
+    background: var(--bg-tertiary);
+    box-shadow: var(--shadow-glow);
+}
+
+.theme-dark .feature-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.theme-dark .feature-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-glow);
+}
+
+.theme-dark .modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.theme-dark .form-control {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.theme-dark .form-control:focus {
+    background: var(--bg-primary);
+}
+
+.theme-dark .form-control::placeholder {
+    color: var(--text-tertiary);
+}
+
+/* ====================================
+   LIGHT MODE
+   ==================================== */
+.theme-light {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-tertiary: #64748b;
+    
+    --border-color: #e2e8f0;
+    --border-hover: #cbd5e1;
+    
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: var(--text-primary);
+}
+
+.theme-light .main-header {
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.theme-light .btn-icon {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.theme-light .btn-icon:hover {
+    background: var(--bg-tertiary);
+    box-shadow: var(--shadow-md);
+}
+
+.theme-light .feature-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-light .feature-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg);
+}
+
+.theme-light .modal-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+.theme-light .form-control {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.theme-light .form-control:focus {
+    background: var(--bg-primary);
+}
+
+.theme-light .form-control::placeholder {
+    color: var(--text-tertiary);
+}
+
+.theme-light .keyboard-glow {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
+}
+
+/* ====================================
+   تغییر ایکون تم
+   ==================================== */
+.theme-dark #themeToggle .icon {
+    display: inline-block;
+}
+
+.theme-dark #themeToggle .icon::before {
+    content: '🌙';
+}
+
+.theme-light #themeToggle .icon {
+    display: inline-block;
+}
+
+.theme-light #themeToggle .icon::before {
+    content: '☀️';
+}
+
+/* ====================================
+   انیمیشن تغییر تم
+   ==================================== */
+body {
+    transition: background 0.5s ease, color 0.3s ease;
+}
+
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ====================================
+   Glassmorphism Effect
+   ==================================== */
+.theme-dark .feature-card,
+.theme-dark .modal-content {
+    backdrop-filter: blur(10px);
+    background: rgba(30, 41, 59, 0.8);
+}
+
+.theme-light .feature-card,
+.theme-light .modal-content {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* ====================================
+   گرادیانت‌های متحرک
+   ==================================== */
+.theme-dark {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+.theme-light {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ====================================
+   اسکرول بار
+   ==================================== */
+.theme-dark ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.theme-dark ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+}
+
+.theme-dark ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+.theme-light ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.theme-light ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+.theme-light ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: var(--radius-full);
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* ====================================
+   Selection
+   ==================================== */
+.theme-dark ::selection {
+    background: rgba(99, 102, 241, 0.3);
+    color: var(--text-primary);
+}
+
+.theme-light ::selection {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--text-primary);
+}

@@ -1,0 +1,316 @@
+/**
+ * ====================================
+ * Virtual Keyboard Styles
+ * استایل کیبورد مجازی
+ * ====================================
+ */
+
+/* ====================================
+   Keyboard Container
+   ==================================== */
+.keyboard-container {
+    margin: var(--spacing-xl) auto;
+    max-width: 1000px;
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-xl);
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+/* ====================================
+   Keyboard Row
+   ==================================== */
+.keyboard-row {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+}
+
+/* ====================================
+   Key
+   ==================================== */
+.key {
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    user-select: none;
+}
+
+.key:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Key Active State */
+.key.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    transform: translateY(2px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ====================================
+   Key Sizes
+   ==================================== */
+.key-small {
+    min-width: 40px;
+}
+
+.key-medium {
+    min-width: 75px;
+}
+
+.key-large {
+    min-width: 100px;
+}
+
+.key-xlarge {
+    min-width: 120px;
+}
+
+.key-space {
+    min-width: 400px;
+}
+
+/* ====================================
+   Finger Colors
+   ==================================== */
+.key[data-finger="pinky-left"],
+.key[data-finger="pinky-right"] {
+    --finger-color: #ef4444;
+}
+
+.key[data-finger="ring-left"],
+.key[data-finger="ring-right"] {
+    --finger-color: #f59e0b;
+}
+
+.key[data-finger="middle-left"],
+.key[data-finger="middle-right"] {
+    --finger-color: #10b981;
+}
+
+.key[data-finger="index-left"],
+.key[data-finger="index-right"] {
+    --finger-color: #3b82f6;
+}
+
+.key[data-finger="thumb"] {
+    --finger-color: #8b5cf6;
+}
+
+/* Finger Highlight */
+.key.finger-highlight {
+    border-color: var(--finger-color);
+    box-shadow: 0 0 10px var(--finger-color);
+}
+
+.key.finger-highlight::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border: 2px solid var(--finger-color);
+    border-radius: var(--radius);
+    opacity: 0.5;
+    animation: fingerPulse 0.5s ease;
+}
+
+@keyframes fingerPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* ====================================
+   Key Content
+   ==================================== */
+.key-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* ====================================
+   Special Keys
+   ==================================== */
+.key[data-char="space"] {
+    font-size: 0.875rem;
+}
+
+.key[data-char="enter"],
+.key[data-char="backspace"],
+.key[data-char="tab"],
+.key[data-char="shift"],
+.key[data-char="caps"] {
+    font-size: 0.75rem;
+}
+
+/* ====================================
+   Home Row Indicator
+   ==================================== */
+.key[data-char="ا"]::after,
+.key[data-char="ل"]::after,
+.key[data-char="f"]::after,
+.key[data-char="j"]::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    width: 30%;
+    height: 3px;
+    background: var(--primary);
+    border-radius: var(--radius-full);
+}
+
+/* ====================================
+   Responsive
+   ==================================== */
+@media (max-width: 1024px) {
+    .keyboard-container {
+        transform: scale(0.9);
+        transform-origin: center;
+    }
+    
+    .key {
+        min-width: 45px;
+        height: 45px;
+        font-size: 0.875rem;
+    }
+    
+    .key-space {
+        min-width: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .keyboard-container {
+        transform: scale(0.7);
+        padding: var(--spacing-sm);
+    }
+    
+    .key {
+        min-width: 40px;
+        height: 40px;
+        font-size: 0.75rem;
+    }
+    
+    .key-space {
+        min-width: 300px;
+    }
+    
+    .keyboard-row {
+        gap: 4px;
+    }
+    
+    .keyboard {
+        gap: 4px;
+    }
+}
+
+/* ====================================
+   Dark/Light Theme
+   ==================================== */
+.theme-dark .key {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.theme-dark .key:hover {
+    background: rgba(99, 102, 241, 0.2);
+}
+
+.theme-light .key {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.theme-light .key:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.theme-light .key.active {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ====================================
+   Animations
+   ==================================== */
+.key {
+    animation: keyFadeIn 0.3s ease backwards;
+}
+
+.keyboard-row:nth-child(1) .key { animation-delay: 0.05s; }
+.keyboard-row:nth-child(2) .key { animation-delay: 0.1s; }
+.keyboard-row:nth-child(3) .key { animation-delay: 0.15s; }
+.keyboard-row:nth-child(4) .key { animation-delay: 0.2s; }
+.keyboard-row:nth-child(5) .key { animation-delay: 0.25s; }
+
+@keyframes keyFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ====================================
+   Key Press Animation
+   ==================================== */
+.key.active {
+    animation: keyPress 0.1s ease;
+}
+
+@keyframes keyPress {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(4px);
+    }
+    100% {
+        transform: translateY(2px);
+    }
+}
+
+/* ====================================
+   Finger Guide (Optional)
+   ==================================== */
+.keyboard-container.show-fingers .key[data-finger]::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--finger-color);
+    border-radius: 50%;
+    opacity: 0.6;
+}

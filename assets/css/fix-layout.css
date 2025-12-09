@@ -1,0 +1,68 @@
+/**
+ * ====================================
+ * Fix Layout Issues
+ * اصلاح مشکلات نمایش
+ * ====================================
+ */
+
+/* اصلاح margin برای RTL */
+body[dir="rtl"] .main-content {
+    margin-left: 0 !important;
+    margin-right: 280px !important;
+}
+
+body[dir="ltr"] .main-content {
+    margin-left: 280px !important;
+    margin-right: 0 !important;
+}
+
+/* اطمینان از نمایش محتوا */
+.main-content {
+    display: block !important;
+    min-height: 100vh !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.practice-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* اطمینان از نمایش typing area */
+.typing-area-container {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.typing-area {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* اصلاح sidebar */
+.sidebar {
+    position: fixed !important;
+    z-index: 1000 !important;
+}
+
+body[dir="rtl"] .sidebar {
+    right: 0 !important;
+    left: auto !important;
+}
+
+body[dir="ltr"] .sidebar {
+    left: 0 !important;
+    right: auto !important;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
