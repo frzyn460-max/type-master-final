@@ -81,12 +81,6 @@ function isActive($page) {
             <span class="nav-text"><?= $st['stats'] ?></span>
         </a>
         
-        <!-- Leaderboard -->
-        <a href="leaderboard.php" class="nav-item <?= isActive('leaderboard.php') ?>">
-            <span class="nav-icon">🏆</span>
-            <span class="nav-text"><?= $st['leaderboard'] ?></span>
-        </a>
-        
         <!-- Profile -->
         <a href="profile.php" class="nav-item <?= isActive('profile.php') ?>">
             <span class="nav-icon">👤</span>
