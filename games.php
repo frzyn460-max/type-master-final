@@ -55,28 +55,31 @@ $t = [
         'plays' => 'بازی',
         'level' => 'سطح',
         'new' => 'جدید',
-        
+
         // بازی 1
         'word_rain' => 'بارش کلمات',
         'word_rain_desc' => 'کلمات از آسمان می‌بارند! قبل از اینکه به زمین برسند تایپ کن',
         'word_rain_features' => '⚡ سرعت بالا | 🎯 دقت | 🏆 امتیاز',
-        
+
         // بازی 2
         'speed_race' => 'مسابقه سرعت',
         'speed_race_desc' => 'در زمان محدود بیشترین کلمه را تایپ کن و رکورد بزن',
         'speed_race_features' => '⏱️ زمان محدود | 🔥 هیجان | 🥇 رقابت',
-        
+
         // بازی 3
         'accuracy' => 'چالش دقت',
         'accuracy_desc' => 'با حداقل خطا، کلمات پیچیده را تایپ کن و دقت خود را ثابت کن',
         'accuracy_features' => '🎯 دقت 100% | 💎 کلمات سخت | ⭐ چالش',
-        
+
         // بازی 4
         'survival' => 'حالت بقا',
         'survival_desc' => 'تا جایی که می‌توانی ادامه بده! هر اشتباه جان کم می‌شود',
         'survival_features' => '❤️ جان محدود | 📈 سختی افزایش | 🎮 بقا',
-        
-        'coming_soon' => 'به زودی...',
+
+        // بازی 5 - جدید!
+        'code_master' => 'استاد کدنویسی',
+        'code_master_desc' => 'کدهای واقعی برنامه‌نویسی تایپ کن! 7 زبان، 3 سطح',
+        'code_master_features' => '💻 کدهای واقعی | 🚀 7 زبان | 🎯 چالش',
     ],
     'en' => [
         'games' => 'Games',
@@ -87,24 +90,27 @@ $t = [
         'plays' => 'Plays',
         'level' => 'Level',
         'new' => 'New',
-        
+
         'word_rain' => 'Word Rain',
         'word_rain_desc' => 'Words fall from the sky! Type them before they hit the ground',
         'word_rain_features' => '⚡ High Speed | 🎯 Accuracy | 🏆 Score',
-        
+
         'speed_race' => 'Speed Race',
         'speed_race_desc' => 'Type as many words as possible in limited time and break records',
         'speed_race_features' => '⏱️ Time Limit | 🔥 Excitement | 🥇 Competition',
-        
+
         'accuracy' => 'Accuracy Challenge',
         'accuracy_desc' => 'Type complex words with minimal errors and prove your precision',
         'accuracy_features' => '🎯 100% Accuracy | 💎 Hard Words | ⭐ Challenge',
-        
+
         'survival' => 'Survival Mode',
         'survival_desc' => 'Keep going as long as you can! Each mistake costs a life',
         'survival_features' => '❤️ Limited Lives | 📈 Increasing Difficulty | 🎮 Survival',
-        
-        'coming_soon' => 'Coming Soon...',
+
+        // Game 5 - New!
+        'code_master' => 'Code Master',
+        'code_master_desc' => 'Type real code snippets! 7 languages, 3 levels',
+        'code_master_features' => '💻 Real Code | 🚀 7 Languages | 🎯 Challenge',
     ]
 ];
 
@@ -151,11 +157,23 @@ $games = [
         'color' => '#f59e0b',
         'available' => true,
         'file' => 'game-survival.php'
+    ],
+
+    [
+        'id' => 'code-master',
+        'title' => $tr['code_master'],
+        'desc' => $tr['code_master_desc'],
+        'features' => $tr['code_master_features'],
+        'icon' => '💻',
+        'color' => '#8b5cf6',
+        'available' => true,
+        'file' => 'game-code-master.php'
     ]
 ];
 ?>
 <!DOCTYPE html>
 <html lang="<?= $currentLang ?>" dir="<?= $currentLang === 'fa' ? 'rtl' : 'ltr' ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -165,11 +183,12 @@ $games = [
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/dashboard.css">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/css/games.css">
 </head>
+
 <body class="theme-<?= $currentTheme ?> lang-<?= $currentLang ?>">
-    
+
     <!-- Sidebar -->
     <?php require_once __DIR__ . '/includes/sidebar.php'; ?>
-    
+
     <!-- Main Content -->
     <main class="main-content">
         <!-- Top Bar -->
@@ -188,12 +207,13 @@ $games = [
                     <span class="icon"><?= $currentLang === 'fa' ? '🇬🇧' : '🇮🇷' ?></span>
                 </button>
                 <div class="user-menu">
-                    <img src="./uploads/avatars/<?= $user['avatar'] ?>" alt="Avatar" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($user['username']) ?>&background=6366f1&color=fff'">
+                    <img src="./uploads/avatars/<?= $user['avatar'] ?>" alt="Avatar" class="user-avatar"
+                        onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($user['username']) ?>&background=6366f1&color=fff'">
                     <span class="user-name"><?= htmlspecialchars($user['username']) ?></span>
                 </div>
             </div>
         </header>
-        
+
         <!-- Games Content -->
         <div class="dashboard-container">
             <!-- Hero Section -->
@@ -204,15 +224,15 @@ $games = [
                 </div>
                 <div class="hero-icon">🎮</div>
             </div>
-            
+
             <!-- Games Grid -->
             <div class="games-grid">
-                <?php foreach ($games as $game): 
+                <?php foreach ($games as $game):
                     $stats = $gameStats[$game['id']] ?? null;
-                ?>
-                    <div class="game-card <?= $game['available'] ? '' : 'coming-soon' ?>" 
-                         style="--game-color: <?= $game['color'] ?>">
-                        
+                    ?>
+                    <div class="game-card <?= $game['available'] ? '' : 'coming-soon' ?>"
+                        style="--game-color: <?= $game['color'] ?>">
+
                         <!-- Card Header -->
                         <div class="game-card-header">
                             <div class="game-icon"><?= $game['icon'] ?></div>
@@ -222,14 +242,14 @@ $games = [
                                 <span class="badge badge-info"><?= $tr['new'] ?></span>
                             <?php endif; ?>
                         </div>
-                        
+
                         <!-- Card Body -->
                         <div class="game-card-body">
                             <h3 class="game-title"><?= $game['title'] ?></h3>
                             <p class="game-desc"><?= $game['desc'] ?></p>
                             <div class="game-features"><?= $game['features'] ?></div>
                         </div>
-                        
+
                         <!-- Card Stats -->
                         <?php if ($stats): ?>
                             <div class="game-stats">
@@ -243,7 +263,7 @@ $games = [
                                 </div>
                             </div>
                         <?php endif; ?>
-                        
+
                         <!-- Card Footer -->
                         <div class="game-card-footer">
                             <?php if ($game['available']): ?>
@@ -261,8 +281,9 @@ $games = [
             </div>
         </div>
     </main>
-    
+
     <script src="<?= SITE_URL ?>/assets/js/app.js"></script>
     <script src="<?= SITE_URL ?>/assets/js/dashboard.js"></script>
 </body>
+
 </html>
