@@ -21,11 +21,19 @@ $filterLanguage = isset($_GET['lang']) ? $_GET['lang'] : $currentLang;
 // دریافت درس‌ها
 $lessons = getLessons($filterLanguage, $filterLevel);
 
-// دریافت پیشرفت کاربر برای همه درس‌ها
+// دریافت پیشرفت کاربر - مستقیماً از دیتابیس
+$db = Database::getInstance();
+$conn = $db->getConnection();
+
+$sql = "SELECT lesson_id, wpm, accuracy, best_wpm, best_accuracy, stars, is_completed, attempts 
+        FROM user_progress 
+        WHERE user_id = :user_id";
+$stmt = $conn->prepare($sql);
+$stmt->execute(['user_id' => $user['id']]);
+
 $userProgressList = [];
-foreach ($lessons as $lesson) {
-    $progress = getUserLessonProgress($user['id'], $lesson['id']);
-    $userProgressList[$lesson['id']] = $progress;
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $userProgressList[$row['lesson_id']] = $row;
 }
 
 // ترجمه‌ها
@@ -41,7 +49,7 @@ $t = [
         'filter' => 'فیلتر',
         'start' => 'شروع',
         'continue' => 'ادامه',
-        'completed' => 'تکمیل شده',
+        'completed' => '✓ تکمیل شده',
         'locked' => 'قفل',
         'unlock_at_level' => 'در سطح :level باز می‌شود',
         'best_wpm' => 'بهترین سرعت',
@@ -65,7 +73,7 @@ $t = [
         'filter' => 'Filter',
         'start' => 'Start',
         'continue' => 'Continue',
-        'completed' => 'Completed',
+        'completed' => '✓ Completed',
         'locked' => 'Locked',
         'unlock_at_level' => 'Unlocks at level :level',
         'best_wpm' => 'Best WPM',
@@ -89,10 +97,12 @@ $inProgressLessons = 0;
 
 foreach ($lessons as $lesson) {
     $progress = $userProgressList[$lesson['id']] ?? null;
-    if ($progress && $progress['is_completed']) {
-        $completedLessons++;
-    } elseif ($progress && $progress['attempts'] > 0) {
-        $inProgressLessons++;
+    if ($progress) {
+        if ($progress['is_completed']) {
+            $completedLessons++;
+        } elseif ($progress['attempts'] > 0) {
+            $inProgressLessons++;
+        }
     }
 }
 ?>
@@ -109,12 +119,9 @@ foreach ($lessons as $lesson) {
 </head>
 <body class="theme-<?= $currentTheme ?> lang-<?= $currentLang ?>">
     
-    <!-- Sidebar -->
     <?php require_once __DIR__ . '/includes/sidebar.php'; ?>
     
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Top Bar -->
         <header class="top-bar">
             <div class="top-bar-left">
                 <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn">
@@ -136,7 +143,6 @@ foreach ($lessons as $lesson) {
             </div>
         </header>
         
-        <!-- Lessons Content -->
         <div class="dashboard-container">
             <!-- Stats Overview -->
             <div class="lessons-overview">
@@ -203,6 +209,11 @@ foreach ($lessons as $lesson) {
                                 <div class="lesson-level <?= $lesson['level'] ?>">
                                     <?= $tr[$lesson['level']] ?>
                                 </div>
+                                <?php if ($isCompleted): ?>
+                                    <div class="lesson-completed-badge">
+                                        ✓
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             
                             <!-- Lesson Body -->
@@ -213,17 +224,30 @@ foreach ($lessons as $lesson) {
                                 <!-- Progress Info -->
                                 <?php if ($progress && !$isLocked): ?>
                                     <div class="lesson-progress-info">
-                                        <?php if ($isCompleted): ?>
-                                            <div class="lesson-stars">
-                                                <?php for ($i = 0; $i < 3; $i++): ?>
-                                                    <span class="star"><?= $i < $progress['stars'] ? '⭐' : '☆' ?></span>
-                                                <?php endfor; ?>
-                                            </div>
-                                        <?php endif; ?>
+                                        <!-- ستاره‌ها -->
+                                        <div class="lesson-stars">
+                                            <?php 
+                                            $stars = (int)$progress['stars'];
+                                            for ($i = 0; $i < 3; $i++): 
+                                            ?>
+                                                <span class="star <?= $i < $stars ? 'filled' : 'empty' ?>">
+                                                    <?= $i < $stars ? '⭐' : '☆' ?>
+                                                </span>
+                                            <?php endfor; ?>
+                                        </div>
                                         
+                                        <!-- آمار -->
                                         <div class="lesson-stats-mini">
-                                            <span><?= $tr['best_wpm'] ?>: <strong><?= $progress['best_wpm'] ?></strong></span>
-                                            <span><?= $tr['best_accuracy'] ?>: <strong><?= $progress['best_accuracy'] ?>%</strong></span>
+                                            <div class="mini-stat">
+                                                <span class="mini-stat-icon">⚡</span>
+                                                <span class="mini-stat-value"><?= round($progress['best_wpm']) ?></span>
+                                                <span class="mini-stat-label">WPM</span>
+                                            </div>
+                                            <div class="mini-stat">
+                                                <span class="mini-stat-icon">🎯</span>
+                                                <span class="mini-stat-value"><?= round($progress['best_accuracy']) ?>%</span>
+                                                <span class="mini-stat-label"><?= $currentLang === 'fa' ? 'دقت' : 'Accuracy' ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 <?php endif; ?>
@@ -240,20 +264,17 @@ foreach ($lessons as $lesson) {
                             <!-- Lesson Footer -->
                             <div class="lesson-footer">
                                 <div class="lesson-xp">
-                                    +<?= $lesson['xp_reward'] ?> XP
+                                    ✨ +<?= $lesson['xp_reward'] ?> XP
                                 </div>
                                 
                                 <?php if (!$isLocked): ?>
-                                    <a href="practice.php?lesson=<?= $lesson['id'] ?>" class="btn btn-primary" style="text-decoration: none;">
-                                        <?php if ($currentLang === 'fa'): ?>
-                                            <?= $isCompleted ? $tr['continue'] : $tr['start'] ?> ←
-                                        <?php else: ?>
-                                            <?= $isCompleted ? $tr['continue'] : $tr['start'] ?> →
-                                        <?php endif; ?>
+                                    <a href="practice.php?lesson=<?= $lesson['id'] ?>" class="btn btn-primary">
+                                        <?= $isCompleted ? $tr['continue'] : $tr['start'] ?> 
+                                        <?= $currentLang === 'fa' ? '←' : '→' ?>
                                     </a>
                                 <?php else: ?>
                                     <button class="btn btn-secondary" disabled>
-                                        <?= $tr['locked'] ?>
+                                        🔒 <?= $tr['locked'] ?>
                                     </button>
                                 <?php endif; ?>
                             </div>
@@ -282,6 +303,9 @@ foreach ($lessons as $lesson) {
             language: '<?= $currentLang ?>',
             theme: '<?= $currentTheme ?>'
         };
+        
+        // Debug: نمایش پیشرفت کاربر
+        console.log('📊 User Progress:', <?= json_encode($userProgressList, JSON_UNESCAPED_UNICODE) ?>);
     </script>
 </body>
 </html>

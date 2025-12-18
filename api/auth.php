@@ -11,11 +11,16 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/auth-check.php';
 
+// تنظیم header برای JSON
+header('Content-Type: application/json; charset=utf-8');
+
 // Session در auth-check شروع می‌شود
 
 // فقط درخواست POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    jsonResponse(['success' => false, 'message' => 'Invalid request method'], 405);
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+    exit;
 }
 
 // دریافت داده‌های JSON
@@ -39,7 +44,9 @@ switch ($action) {
         break;
         
     default:
-        jsonResponse(['success' => false, 'message' => 'Invalid action'], 400);
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Invalid action']);
+        exit;
 }
 
 /**
@@ -50,16 +57,19 @@ function handleLogin($data) {
     $password = $data['password'] ?? '';
     
     if (empty($username) || empty($password)) {
-        jsonResponse([
+        http_response_code(400);
+        echo json_encode([
             'success' => false,
             'message' => 'لطفاً نام کاربری و رمز عبور را وارد کنید'
         ]);
+        exit;
     }
     
     $result = login($username, $password);
     
     if ($result['success']) {
-        jsonResponse([
+        http_response_code(200);
+        echo json_encode([
             'success' => true,
             'message' => 'خوش آمدید!',
             'user' => [
@@ -72,14 +82,16 @@ function handleLogin($data) {
                 'language' => $result['user']['language'],
                 'theme' => $result['user']['theme']
             ],
-            'redirect' => SITE_URL . '/dashboard.php'
+            'redirect' => './dashboard.php'
         ]);
     } else {
-        jsonResponse([
+        http_response_code(401);
+        echo json_encode([
             'success' => false,
             'message' => $result['message']
-        ], 401);
+        ]);
     }
+    exit;
 }
 
 /**
@@ -91,10 +103,30 @@ function handleRegister($data) {
     $password = $data['password'] ?? '';
     $passwordConfirm = $data['password_confirm'] ?? '';
     
+    // اعتبارسنجی
+    if (empty($username) || empty($email) || empty($password)) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'لطفاً تمام فیلدها را پر کنید'
+        ]);
+        exit;
+    }
+    
+    if ($password !== $passwordConfirm) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'رمز عبور و تکرار آن مطابقت ندارند'
+        ]);
+        exit;
+    }
+    
     $result = register($username, $email, $password, $passwordConfirm);
     
     if ($result['success']) {
-        jsonResponse([
+        http_response_code(200);
+        echo json_encode([
             'success' => true,
             'message' => 'ثبت‌نام با موفقیت انجام شد!',
             'user' => [
@@ -107,13 +139,15 @@ function handleRegister($data) {
                 'language' => $result['user']['language'],
                 'theme' => $result['user']['theme']
             ],
-            'redirect' => SITE_URL . '/dashboard.php'
+            'redirect' => './dashboard.php'
         ]);
     } else {
-        jsonResponse([
+        http_response_code(400);
+        echo json_encode([
             'success' => false,
             'message' => $result['message']
-        ], 400);
+        ]);
     }
+    exit;
 }
 ?>

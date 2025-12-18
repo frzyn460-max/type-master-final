@@ -6,14 +6,23 @@
  * ====================================
  */
 
-session_start();
+// شروع session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth-check.php';
+// پاک کردن تمام session ها
+$_SESSION = array();
 
-// خروج از سیستم
-logout();
+// حذف session cookie
+if (isset($_COOKIE[session_name()])) {
+    setcookie(session_name(), '', time() - 3600, '/');
+}
+
+// نابود کردن session
+session_destroy();
 
 // ریدایرکت به صفحه اصلی
-redirect(SITE_URL . '/index.php');
+header('Location: ../index.php');
+exit;
 ?>
