@@ -1,0 +1,617 @@
+/**
+ * ====================================
+ * Responsive Design
+ * بهینه‌سازی برای موبایل و تبلت
+ * ====================================
+ */
+
+/* Base Mobile-First Approach */
+:root {
+    --container-padding: 1rem;
+    --section-gap: 1.5rem;
+    --card-padding: 1rem;
+}
+
+/* Tablets and Small Desktops */
+@media (min-width: 768px) {
+    :root {
+        --container-padding: 2rem;
+        --section-gap: 2rem;
+        --card-padding: 1.5rem;
+    }
+}
+
+/* Large Desktops */
+@media (min-width: 1200px) {
+    :root {
+        --container-padding: 3rem;
+        --section-gap: 3rem;
+        --card-padding: 2rem;
+    }
+}
+
+/* =================================
+   Mobile (max-width: 480px)
+   ================================= */
+@media (max-width: 480px) {
+    /* Typography */
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .nav-item {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Main Content */
+    .main-content {
+        margin-left: 0;
+        padding: 0;
+    }
+
+    /* Top Bar */
+    .top-bar {
+        flex-wrap: wrap;
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+
+    .top-bar-left,
+    .top-bar-right {
+        gap: 0.5rem;
+    }
+
+    .page-title {
+        font-size: 1.2rem;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .user-avatar {
+        width: 35px;
+        height: 35px;
+    }
+
+    .btn-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Lessons Grid */
+    .lessons-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .lesson-card {
+        padding: 1rem;
+    }
+
+    .lesson-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    /* Games Grid */
+    .games-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .game-card {
+        padding: 1rem;
+    }
+
+    .game-icon {
+        font-size: 2.5rem;
+    }
+
+    /* Profile */
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+    }
+
+    /* Settings */
+    .settings-hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 1rem;
+    }
+
+    .settings-hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .settings-hero-icon {
+        font-size: 3rem;
+        margin-top: 1rem;
+    }
+
+    .settings-section {
+        padding: 1rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .section-icon {
+        font-size: 2rem;
+        width: 45px;
+        height: 45px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .setting-item {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    /* Buttons */
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    /* Tables */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 0.5rem;
+    }
+
+    /* Modals */
+    .modal-content {
+        width: 95%;
+        margin: 1rem auto;
+        padding: 1rem;
+    }
+
+    /* Forms */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    input,
+    textarea,
+    select {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    /* Charts */
+    .chart-container {
+        height: 250px;
+    }
+
+    /* Toast */
+    .toast {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+}
+
+/* =================================
+   Tablets (481px - 768px)
+   ================================= */
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Sidebar */
+    .sidebar {
+        width: 300px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Lessons & Games Grid */
+    .lessons-grid,
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Profile Stats */
+    .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+        padding: 1.5rem;
+    }
+
+    /* Charts */
+    .chart-container {
+        height: 300px;
+    }
+}
+
+/* =================================
+   Desktop (769px - 1024px)
+   ================================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Sidebar */
+    .sidebar {
+        width: 260px;
+    }
+
+    /* Main Content */
+    .main-content {
+        margin-left: 260px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Lessons & Games Grid */
+    .lessons-grid,
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Profile Stats */
+    .profile-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =================================
+   Large Desktop (1025px+)
+   ================================= */
+@media (min-width: 1025px) {
+    /* Stats Grid */
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Lessons & Games Grid */
+    .lessons-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Profile Stats */
+    .profile-stats {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* =================================
+   Extra Large Desktop (1440px+)
+   ================================= */
+@media (min-width: 1440px) {
+    .dashboard-container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .lessons-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =================================
+   Landscape Mobile
+   ================================= */
+@media (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+        padding-top: 1rem;
+    }
+
+    .nav-item {
+        padding: 0.6rem 1rem;
+    }
+
+    .stat-card {
+        padding: 0.8rem;
+    }
+
+    .settings-hero {
+        padding: 1.5rem;
+    }
+}
+
+/* =================================
+   Touch Device Optimizations
+   ================================= */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    .btn,
+    .btn-icon,
+    .nav-item,
+    .toggle-switch {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Remove hover effects */
+    .stat-card:hover,
+    .lesson-card:hover,
+    .game-card:hover,
+    .setting-item:hover {
+        transform: none;
+    }
+
+    /* Show tooltips on tap */
+    .tooltip {
+        pointer-events: auto;
+    }
+}
+
+/* =================================
+   Print Styles
+   ================================= */
+@media print {
+    .sidebar,
+    .top-bar,
+    .mobile-menu-btn,
+    .btn,
+    .toast {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 0;
+    }
+
+    .dashboard-container {
+        padding: 0;
+    }
+
+    * {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* =================================
+   Utility Classes
+   ================================= */
+
+/* Visibility */
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+}
+
+.tablet-only {
+    display: none;
+}
+
+@media (min-width: 481px) and (max-width: 1024px) {
+    .tablet-only {
+        display: block;
+    }
+}
+
+/* Spacing */
+.p-mobile {
+    padding: var(--container-padding);
+}
+
+.m-mobile {
+    margin: var(--container-padding);
+}
+
+.gap-mobile {
+    gap: var(--section-gap);
+}
+
+/* Flex Direction */
+@media (max-width: 768px) {
+    .flex-mobile-column {
+        flex-direction: column;
+    }
+
+    .flex-mobile-row {
+        flex-direction: row;
+    }
+}
+
+/* Grid Columns */
+@media (max-width: 768px) {
+    .grid-mobile-1 {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-mobile-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Text Alignment */
+@media (max-width: 768px) {
+    .text-mobile-center {
+        text-align: center;
+    }
+
+    .text-mobile-left {
+        text-align: left;
+    }
+
+    .text-mobile-right {
+        text-align: right;
+    }
+}
+
+/* Width */
+@media (max-width: 768px) {
+    .w-mobile-full {
+        width: 100%;
+    }
+
+    .w-mobile-auto {
+        width: auto;
+    }
+}
+
+/* Safe Area for iOS */
+@supports (padding: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+
+    .sidebar,
+    .top-bar {
+        padding-top: calc(1rem + env(safe-area-inset-top));
+    }
+}
+
+/* Accessibility - Reduce Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Dark Mode Preference */
+@media (prefers-color-scheme: dark) {
+    :root:not(.theme-light) {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-color: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    * {
+        border-width: 2px;
+    }
+
+    .btn,
+    .card,
+    .input {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced Data Mode */
+@media (prefers-reduced-data: reduce) {
+    /* Disable background images */
+    * {
+        background-image: none !important;
+    }
+
+    /* Use system fonts instead of custom fonts */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+}
